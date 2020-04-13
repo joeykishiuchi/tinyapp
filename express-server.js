@@ -2,7 +2,7 @@ const express = require('express');
 const app = express();
 const PORT = 8080;
 
-app.set('view-engine', 'ejs');
+app.set('view engine', 'ejs');
 
 
 const urlDatabase = {
@@ -10,7 +10,12 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
-app.get('/',(req,res) => {
+app.get('/urls',(req, res) => {
+  const template = {urls: urlDatabase}
+  res.render("urls_index", template);
+});
+
+app.get('/',(req, res) => {
   res.send("Hello!");
 });
 
