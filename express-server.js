@@ -11,7 +11,7 @@ app.set('view engine', 'ejs');
 app.post('/urls', (req, res) => {
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = req.body.longURL;
-  res.redirect(`urls/${shortURL}`)
+  res.redirect(`urls/${shortURL}`);
 });
 
 app.get('/',(req, res) => {
