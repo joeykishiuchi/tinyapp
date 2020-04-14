@@ -8,4 +8,4 @@ const generateRandomString = function() {
   return randomString.join("");
 };
 
-module.exports = generateRandomString;
+module.exports = { generateRandomString };
