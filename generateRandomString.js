@@ -1,3 +1,4 @@
+// Generates a 6 character string that acts as a shortURL
 const generateRandomString = function() {
   const characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvqwxyz0123456789";
   let randomString = [];

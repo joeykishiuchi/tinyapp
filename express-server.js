@@ -3,15 +3,15 @@ const app = express();
 const PORT = 8080;
 const bodyParser = require('body-parser');
 const { generateRandomString } = require('./generateRandomString');
-
+// Encodes buffer from POST
 app.use(bodyParser.urlencoded({extended: true}));
 
 app.set('view engine', 'ejs');
-
+// Recieves form input, stores the data and redirects to corresponding path
 app.post('/urls', (req, res) => {
-  urlDatabase[generateRandomString()] = req.body.longURL;
-  const templateVars = {shortURL:generateRandomString(), longURL: req.body.longURL};
-  res.render('urls_show', templateVars);
+  const shortURL = generateRandomString();
+  urlDatabase[shortURL] = req.body.longURL;
+  res.redirect(`urls/${shortURL}`)
 });
 
 app.get('/',(req, res) => {
@@ -27,29 +27,26 @@ app.get('/urls/new',(req, res) => {
   res.render('urls_new');
 });
 
-app.get('/u/:shortURL',(req, res) => {
-  const longURL = ;
-  res.redirect(longURL);
-});
-
 app.get('/urls/:shortURL',(req, res) => {
   const templateVars = { shortURL: req.params.shortURL, longURL: urlDatabase[req.params.shortURL] };
   res.render("urls_show", templateVars);
+});
+
+app.get("/u/:shortURL", (req, res) => {
+  const longURL = urlDatabase[req.params.shortURL];
+  res.redirect(longURL);
+
 });
 
 app.get("/urls.json", (req, res) => {
   res.json(urlDatabase);
 });
 
-app.get("/hello", (req, res) => {
-  res.send("<html><body>Hello <b>World</b></body></html>\n");
-});
-
 const urlDatabase = {
   "b2xVn2": "http://www.lighthouselabs.ca",
   "9sm5xK": "http://www.google.com"
 };
-
+// Open a express connection 
 app.listen(PORT, () => {
   console.log(`Example app listening on port ${PORT}`);
 });
