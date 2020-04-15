@@ -17,12 +17,42 @@ const urlDatabase = {
   "9sm5xK": "http://www.google.com"
 };
 
+const users = { 
+  "userRandomID": {
+    id: "userRandomID", 
+    email: "user@example.com", 
+    password: "purple-monkey-dinosaur"
+  }
+};
+
 // POST Requests
 
 app.post('/urls', (req, res) => {
   const shortURL = generateRandomString();
   urlDatabase[shortURL] = req.body.longURL;
   res.redirect(`urls/${shortURL}`);
+});
+
+app.post('/register', (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password) {
+    res.redirect('/register')
+  } else {
+    for (let user in users) {
+      if (users[user].email === email) {
+        return res.status(400).send('Email already Exists!')
+      }
+    }
+    const newUserID = generateRandomString();
+    users[newUserID] = {
+      id: newUserID,
+      email: email,
+      password: password
+    };
+    res.cookie('user_id', newUserID);
+    console.log(users);
+    res.redirect('/urls');
+  }
 });
 
 app.post('/urls/:shortURL/delete',(req, res) => {
@@ -59,9 +89,9 @@ app.get('/',(req, res) => {
   res.render();
 });
 
-app.get('/registration', (req, res) => {
+app.get('/register', (req, res) => {
   const templateVars = {
-    username: req.cookies['username']
+    user: users[res.cookie.user_id]
   };
   res.render('registration',templateVars);
 });
@@ -69,14 +99,14 @@ app.get('/registration', (req, res) => {
 app.get('/urls',(req, res) => {
   const templateVars = {
     urls: urlDatabase,
-    username: req.cookies['username']
+    user: users[res.cookie.user_id]
   };
   res.render('urls_index', templateVars);
 });
 
 app.get('/urls/new',(req, res) => {
   const templateVars = {
-    username: req.cookies['username']
+    user: users[res.cookie.user_id]
   };
   res.render('urls_new', templateVars);
 });
@@ -85,7 +115,7 @@ app.get('/urls/:shortURL',(req, res) => {
   const templateVars = { 
     shortURL: req.params.shortURL, 
     longURL: urlDatabase[req.params.shortURL],
-    username: req.cookies['username']
+    user: users[res.cookie.user_id]
   };
   res.render("urls_show", templateVars);
 });
