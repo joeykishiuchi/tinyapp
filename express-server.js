@@ -24,6 +24,15 @@ const users = {
     password: "purple-monkey-dinosaur"
   }
 };
+// checks through users for an existing email and returns the iser ID, otherwise returns false;
+const checkUser = function(newEmail) {
+  for (const user in users) {
+    if (users[user].email === newEmail) {
+      return user;
+    }
+  }
+  return false;
+};
 
 // POST Requests
 
@@ -36,13 +45,10 @@ app.post('/urls', (req, res) => {
 app.post('/register', (req, res) => {
   const { email, password } = req.body;
   if (!email || !password) {
-    res.redirect('/register')
+    return res.status(400).send("Please fill in the fields!")
+  } else if (checkUser(email)) {
+    return res.status(400).send('Email already Exists!')
   } else {
-    for (let user in users) {
-      if (users[user].email === email) {
-        return res.status(400).send('Email already Exists!')
-      }
-    }
     const newUserID = generateRandomString();
     users[newUserID] = {
       id: newUserID,
@@ -74,12 +80,20 @@ app.post('/urls/:shortURL',(req, res) => {
 });
 
 app.post('/login', (req, res) => {
-  res.cookie('username', req.body.username);
-  res.redirect('/urls');
+  const { email, password} = req.body;
+  if (!checkUser(email)) {
+    return res.status(403).send("We don't seem to have an account under that email!");
+  } else {
+    const userPassword = users[checkUser(email)].password;
+    if(userPassword !== password) {
+      return res.status(403).send("Incorrect Password!");
+    }
+    res.redirect('/urls');
+  }
 });
 
 app.post('/logout', (req, res) => {
-  res.clearCookie('username');
+  res.clearCookie('user_id');
   res.redirect('/urls');
 });
 
@@ -94,6 +108,13 @@ app.get('/register', (req, res) => {
     user: users[res.cookie.user_id]
   };
   res.render('registration',templateVars);
+});
+
+app.get('/login', (req, res) => {
+  const templateVars = {
+    user: users[res.cookie.user_id]
+  };
+  res.render('login',templateVars);
 });
 
 app.get('/urls',(req, res) => {
