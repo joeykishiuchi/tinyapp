@@ -13,6 +13,17 @@
     
     <main style="margin: 1em;">
       <h3 style="width: 300px;margin: 0 0 1em 0">Login</h3>
+      <% if (errorEmpty) { %>
+        <div style="margin: 0 0 1em 1em;color: red;">  
+          <%= errorEmpty %>
+        </div>
+      <% } %>
+      <% if (errorExists) { %>
+        <div style="margin: 0 0 1em 1em;color: red;">  
+          <%= errorExists %>
+        </div>
+      <% } %>
+      </div>
       <div style="margin: 0 1em;">
       <form method="POST" action="/login">
         <label>Email Address:</label>
