@@ -9,7 +9,7 @@ app.use(cookieSession({
   name: 'session',
   keys: ['user_id']
 }));
-const { generateRandomString, getUserByEmail } = require('./resources');
+const { generateRandomString, getUserByEmail } = require('./helpers');
 
 app.set('view engine', 'ejs');
 

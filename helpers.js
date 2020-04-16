@@ -11,11 +11,10 @@ const generateRandomString = function() {
 // Compares given emai; to users database, returns userID or empty string
 const getUserByEmail = function(users, email) {
   for (const user in users) {
-    if (users[user].email ===email) {
+    if (users[user].email === email) {
       return user;
     }
   }
-  return '';
 };
 
 module.exports = { generateRandomString, getUserByEmail };
