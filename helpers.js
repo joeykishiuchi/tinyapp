@@ -8,7 +8,7 @@ const generateRandomString = function() {
   }
   return randomString.join("");
 };
-// Compares given emai; to users database, returns userID or empty string
+// Compares given email to users database, returns userID or undefined
 const getUserByEmail = function(users, email) {
   for (const user in users) {
     if (users[user].email === email) {
