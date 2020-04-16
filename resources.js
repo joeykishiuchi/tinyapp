@@ -8,14 +8,14 @@ const generateRandomString = function() {
   }
   return randomString.join("");
 };
-// Compares given emai; to users database, returns userID or false
-const checkUser = function(users, newEmail) {
+// Compares given emai; to users database, returns userID or empty string
+const getUserByEmail = function(users, email) {
   for (const user in users) {
-    if (users[user].email === newEmail) {
+    if (users[user].email ===email) {
       return user;
     }
   }
-  return false;
+  return '';
 };
 
-module.exports = { generateRandomString, checkUser };
+module.exports = { generateRandomString, getUserByEmail };
