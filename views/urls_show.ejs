@@ -49,12 +49,12 @@
       <div class="tab-content" id="nav-tabContent" style="width: 600px;height: 250px;border: lightgray solid 1px;border-top: 0;margin:0 auto;overflow-y: scroll;">
         <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
           <h5 style="margin: 3em;">Total Visitors: <%= visits %></h5>
-          <h5 style="margin: 1em;">Unique Visitors: <%= visits %></h5>
+          <h5 style="margin: 1em;">Unique Visitors: <%= uniqueVisits.length %></h5>
         </div>
         <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" style="text-align: left; padding-left: 1em;">
-          <h5>Unique Visitors: <%= visits %></h5>
-          <h5>Unique Visitors: <%= visits %></h5>
-          <h5>Unique Visitors: <%= visits %></br> eggggglg</br>lgllsdfj</br>psdfjsdfvsj</br>dgsvigjsve</br>irghvs;neroer</br>;gvhognsv</br>msgiohse</br>irgnhrgosveghs</br>elighensslsghsgrvs</h5>
+          <% for (const visit of visitorLog) { %>
+            <%= visit %><br/>
+          <% } %>
         </div>
       </div>
 

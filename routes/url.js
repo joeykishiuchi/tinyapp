@@ -37,7 +37,7 @@ const urlRouter = (urlDatabase, users) => {
         longURL: req.body.longURL, 
         userID: req.session.user_id, 
         visitCount: 0, 
-        uniqueVisits: 0,
+        uniqueVisits: [],
         visitorLog: []
       };
       res.redirect(`/urls/${shortURL}`);
@@ -64,15 +64,20 @@ const urlRouter = (urlDatabase, users) => {
         shortURL: req.params.shortURL,
         longURL: urlDatabase[req.params.shortURL].longURL,
         visits: urlDatabase[req.params.shortURL].visitCount,
-        unigueVisit: urlDatabase[req.params.shortURL].uniqueVisits,
+        uniqueVisits: urlDatabase[req.params.shortURL].uniqueVisits,
         visitorLog: urlDatabase[req.params.shortURL].visitorLog,
         user: users[req.session.user_id],
         editPermission: true
       };
       if (templateVars.user) {
-          if (urlDatabase[req.params.shortURL].userID === templateVars.user.id) { 
+        const date = new Date();
+        urlDatabase[req.params.shortURL].visitorLog.push(`${templateVars.user.id} ===> ${date}`);
+        if (urlDatabase[req.params.shortURL].userID === templateVars.user.id) { 
           res.render("urls_show", templateVars);
         } else {
+          if (!templateVars.uniqueVisits.includes(templateVars.user.id)) {
+            urlDatabase[req.params.shortURL].uniqueVisits.push(templateVars.user.id);
+          }
           templateVars.editPermission = false;
           res.render("urls_show", templateVars);
         }
