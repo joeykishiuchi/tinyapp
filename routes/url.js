@@ -33,7 +33,13 @@ const urlRouter = (urlDatabase, users) => {
   router.post('/new', (req, res) => {
     if (req.body.longURL) {
       const shortURL = generateRandomString();
-      urlDatabase[shortURL] = { longURL: req.body.longURL, userID: req.session.user_id };
+      urlDatabase[shortURL] = { 
+        longURL: req.body.longURL, 
+        userID: req.session.user_id, 
+        visitCount: 0, 
+        uniqueVisits: 0,
+        visitorLog: []
+      };
       res.redirect(`/urls/${shortURL}`);
     } else {
       const templateVars = {
@@ -51,18 +57,33 @@ const urlRouter = (urlDatabase, users) => {
   });
   
   router.get('/:shortURL',(req, res) => {
-    // Checks that the shortened URL exists in the database and that the url belongs to the logged in user
-    if (urlDatabase[req.params.shortURL] && urlDatabase[req.params.shortURL].userID === req.session.user_id) {
+    // Checks that the shortened URL exists in the database
+    if (urlDatabase[req.params.shortURL]) {
+      urlDatabase[req.params.shortURL].visitCount++;
       const templateVars = {
         shortURL: req.params.shortURL,
         longURL: urlDatabase[req.params.shortURL].longURL,
-        user: users[req.session.user_id]
+        visits: urlDatabase[req.params.shortURL].visitCount,
+        unigueVisit: urlDatabase[req.params.shortURL].uniqueVisits,
+        visitorLog: urlDatabase[req.params.shortURL].visitorLog,
+        user: users[req.session.user_id],
+        editPermission: true
       };
-      res.render("urls_show", templateVars);
+      if (templateVars.user) {
+          if (urlDatabase[req.params.shortURL].userID === templateVars.user.id) { 
+          res.render("urls_show", templateVars);
+        } else {
+          templateVars.editPermission = false;
+          res.render("urls_show", templateVars);
+        }
+      } else {
+        templateVars.editPermission = false;
+          res.render("urls_show", templateVars);
+      }
     } else {
       res.status(404).send('Sorry, that doesn\'t seem to be a valid URL');
     }
-  });
+});
   
   router.post('/:shortURL',(req, res) => {
     if (!req.body.newURL) {

@@ -15,15 +15,49 @@
         <p class="card-text">Short URL: <a href="/u/<%= shortURL %>" target="_blank"><%= shortURL %></a></p>
       </div>
     <div class="card-footer text-muted">
-      <h4>Edit</h4>
-      <form class="form-inline" method="POST" action="/urls/<%= shortURL %>">
-        <div class="form-group mb-2" style="margin: auto;">
-          <label for="newURL">Enter New URL:</label>
-          <input class="form-control" type="text" name="newURL" placeholder="http://" style="width: 300px; margin: 1em">
-          <button type="submit" class="btn btn-primary">Update</button>
-        </div>
-      </form>
+      <% if (editPermission) { %>
+        <h4>Edit</h4>
+        <form class="form-inline" method="POST" action="/urls/<%= shortURL %>">
+          <div class="form-group mb-2" style="margin: auto;border-color: ">
+            <label for="newURL">Enter New URL:</label>
+            <input class="form-control" type="text" name="newURL" placeholder="http://" style="width: 300px; margin: 1em">
+            <button type="submit" class="btn btn-primary">Update</button>
+          </div>
+        </form>
+      <% } %>
     </div>
+
+      <!-- <ul class="nav nav-tabs" id="myTab" role="tablist" style="width: 600px;margin: 1em auto 0;background-color: rgba(0, 0, 0, 0.03);">
+        <li class="nav-item">
+          <a class="nav-link active" id="analytics-tab" data-toggle="tab" href="#analytics" role="tab" aria-controls="analytics" aria-selected="true">Analytics</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" id="visitor-tab" data-toggle="tab" href="#visitors" role="tab" aria-controls="visitor" aria-selected="false">Visitor Log</a>
+        </li>
+      </ul>
+      <div class="tab-content" id="myTabContent" style="width: 600px;height: 250px;border: lightgray solid 1px;border-top: 0;margin:0 auto">
+        <div class="tab-pane fade" id="analytics" role="tabpanel" aria-labelledby="analytics-tab">sdvsdv</div>
+        <div class="tab-pane fade" id="visitor" role="tabpanel" aria-labelledby="visitor-tab">23234234</div>
+      </div> -->
+
+      <nav>
+        <div class="nav nav-tabs" id="nav-tab" role="tablist" style="width: 600px;margin: 1em auto 0;background-color: rgba(0, 0, 0, 0.03);">
+          <a class="nav-item nav-link active" id="nav-profile-tab" data-toggle="tab" href="#nav-profile" role="tab" aria-controls="nav-profile" aria-selected="false">Analytics</a>
+          <a class="nav-item nav-link" id="nav-contact-tab" data-toggle="tab" href="#nav-contact" role="tab" aria-controls="nav-contact" aria-selected="false">Visitor Log</a>
+        </div>
+      </nav>
+      <div class="tab-content" id="nav-tabContent" style="width: 600px;height: 250px;border: lightgray solid 1px;border-top: 0;margin:0 auto;overflow-y: scroll;">
+        <div class="tab-pane fade show active" id="nav-profile" role="tabpanel" aria-labelledby="nav-profile-tab">
+          <h5 style="margin: 3em;">Total Visitors: <%= visits %></h5>
+          <h5 style="margin: 1em;">Unique Visitors: <%= visits %></h5>
+        </div>
+        <div class="tab-pane fade" id="nav-contact" role="tabpanel" aria-labelledby="nav-contact-tab" style="text-align: left; padding-left: 1em;">
+          <h5>Unique Visitors: <%= visits %></h5>
+          <h5>Unique Visitors: <%= visits %></h5>
+          <h5>Unique Visitors: <%= visits %></br> eggggglg</br>lgllsdfj</br>psdfjsdfvsj</br>dgsvigjsve</br>irghvs;neroer</br>;gvhognsv</br>msgiohse</br>irgnhrgosveghs</br>elighensslsghsgrvs</h5>
+        </div>
+      </div>
+
   </div>
   <!-- Bootstrap JS -->
   <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
