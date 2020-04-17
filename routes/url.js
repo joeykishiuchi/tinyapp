@@ -1,10 +1,12 @@
-const express = require('express')
+const express = require('express');
+var methodOverride = require('method-override');
 
 // Import helper functions
 const { generateRandomString } = require('../helpers');
 
 const urlRouter = (urlDatabase, users) => {
   const router = express.Router();
+  router.use(methodOverride('_method'));
 
   router.get('/',(req, res) => {
     const templateVars = {
@@ -45,7 +47,7 @@ const urlRouter = (urlDatabase, users) => {
   });
   
   
-  router.post('/:shortURL/delete',(req, res) => {
+  router.delete('/:shortURL/delete',(req, res) => {
     delete urlDatabase[req.params.shortURL];
     res.redirect('/urls');
   });
@@ -64,7 +66,7 @@ const urlRouter = (urlDatabase, users) => {
     }
   });
   
-  router.post('/:shortURL',(req, res) => {
+  router.put('/:shortURL',(req, res) => {
     if (!req.body.newURL) {
       res.redirect(`/urls/${req.params.shortURL}`);
     } else {
