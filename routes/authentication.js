@@ -1,4 +1,5 @@
-const express = require('express')
+const express = require('express');
+var methodOverride = require('method-override');
 const bcrypt = require('bcrypt');
 
 // Import helper functions
@@ -6,6 +7,7 @@ const { generateRandomString, getUserByEmail } = require('../helpers');
 
 const authRouter = (urlDatabase, users) => {
   const router = express.Router();
+  router.use(methodOverride('X-HTTP-Method-Override'));
   
   router.get('/',(req, res) => {
     const templateVars = {
