@@ -3,7 +3,7 @@ var methodOverride = require('method-override');
 const app = express();
 const PORT = 3001;
 
-app.use(methodOverride('X-HTTP-Method-Override'));
+app.use(methodOverride('_method'));
 
 // Handles and sets cookie encryption
 const cookieSession = require('cookie-session');

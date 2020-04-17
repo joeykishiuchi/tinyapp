@@ -16,29 +16,14 @@
       </div>
     <div class="card-footer text-muted">
       <% if (editPermission) { %>
-<<<<<<< HEAD
-      <h4>Edit</h4>
-<<<<<<< HEAD
-      <form class="form-inline" method="POST" action="/urls/<%= shortURL%>/?_method=PUT">
-=======
-      <form class="form-inline" method="POST" action="/urls/<%= shortURL %>/?_method=PUT">
->>>>>>> feature/method-override
-        <div class="form-group mb-2" style="margin: auto;">
-          <label for="newURL">Enter New URL:</label>
-          <input class="form-control" type="text" name="newURL" placeholder="http://" style="width: 300px; margin: 1em">
-          <button type="submit" class="btn btn-primary">Update</button>
-        </div>
-      </form>
-=======
         <h4>Edit</h4>
-        <form class="form-inline" method="POST" action="/urls/<%= shortURL %>">
-          <div class="form-group mb-2" style="margin: auto;border-color: ">
+        <form class="form-inline" method="POST" action="/urls/<%= shortURL %>/?_method=PUT">
+          <div class="form-group mb-2" style="margin: auto;">
             <label for="newURL">Enter New URL:</label>
             <input class="form-control" type="text" name="newURL" placeholder="http://" style="width: 300px; margin: 1em">
             <button type="submit" class="btn btn-primary">Update</button>
           </div>
         </form>
->>>>>>> feature/stats
       <% } %>
     </div>
     <!-- Used bootstrap's resources to create a table to hold the analytics -->

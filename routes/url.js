@@ -61,28 +61,16 @@ const urlRouter = (urlDatabase, users) => {
   router.get('/:shortURL',(req, res) => {
     // Checks that the shortened URL exists in the database
     if (urlDatabase[req.params.shortURL]) {
-<<<<<<< HEAD
-      const templateVars = {
-        shortURL: req.params.shortURL,
-        longURL: urlDatabase[req.params.shortURL].longURL,
-=======
-      urlDatabase[req.params.shortURL].visitCount++;
       const templateVars = {
         shortURL: req.params.shortURL,
         longURL: urlDatabase[req.params.shortURL].longURL,
         visits: urlDatabase[req.params.shortURL].visitCount,
         uniqueVisits: urlDatabase[req.params.shortURL].uniqueVisits,
         visitorLog: urlDatabase[req.params.shortURL].visitorLog,
->>>>>>> feature/stats
         user: users[req.session.user_id],
         editPermission: true
       };
       if (templateVars.user) {
-<<<<<<< HEAD
-          if (urlDatabase[req.params.shortURL].userID === templateVars.user.id) { 
-          res.render("urls_show", templateVars);
-        } else {
-=======
         const date = new Date();
         urlDatabase[req.params.shortURL].visitorLog.push(`${templateVars.user.id} ===> ${date}`);
         if (urlDatabase[req.params.shortURL].userID === templateVars.user.id) { 
@@ -91,7 +79,6 @@ const urlRouter = (urlDatabase, users) => {
           if (!templateVars.uniqueVisits.includes(templateVars.user.id)) {
             urlDatabase[req.params.shortURL].uniqueVisits.push(templateVars.user.id);
           }
->>>>>>> feature/stats
           templateVars.editPermission = false;
           res.render("urls_show", templateVars);
         }
