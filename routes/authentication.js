@@ -48,6 +48,8 @@ const authRouter = (urlDatabase, users) => {
         password: password
       };
       req.session.user_id = newUserID;
+      console.log(req.session.user_id );
+      
       res.redirect('/urls');
     }
   });
@@ -80,6 +82,7 @@ const authRouter = (urlDatabase, users) => {
         }
         const userId = getUserByEmail(users, email);
         req.session.user_id = userId;
+        console.log(req.session.user_id );
         res.redirect('/urls');
       }
     }

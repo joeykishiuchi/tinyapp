@@ -1,10 +1,12 @@
-const express = require('express')
+const express = require('express');
+var methodOverride = require('method-override');
 
 // Import helper functions
 const { generateRandomString } = require('../helpers');
 
 const urlRouter = (urlDatabase, users) => {
   const router = express.Router();
+  router.use(methodOverride('_method'));
 
   router.get('/',(req, res) => {
     const templateVars = {
@@ -45,26 +47,37 @@ const urlRouter = (urlDatabase, users) => {
   });
   
   
-  router.post('/:shortURL/delete',(req, res) => {
+  router.delete('/:shortURL/delete',(req, res) => {
     delete urlDatabase[req.params.shortURL];
     res.redirect('/urls');
   });
   
   router.get('/:shortURL',(req, res) => {
-    // Checks that the shortened URL exists in the database and that the url belongs to the logged in user
-    if (urlDatabase[req.params.shortURL] && urlDatabase[req.params.shortURL].userID === req.session.user_id) {
+    // Checks that the shortened URL exists in the database
+    if (urlDatabase[req.params.shortURL]) {
       const templateVars = {
         shortURL: req.params.shortURL,
         longURL: urlDatabase[req.params.shortURL].longURL,
-        user: users[req.session.user_id]
+        user: users[req.session.user_id],
+        editPermission: true
       };
-      res.render("urls_show", templateVars);
+      if (templateVars.user) {
+          if (urlDatabase[req.params.shortURL].userID === templateVars.user.id) { 
+          res.render("urls_show", templateVars);
+        } else {
+          templateVars.editPermission = false;
+          res.render("urls_show", templateVars);
+        }
+      } else {
+        templateVars.editPermission = false;
+          res.render("urls_show", templateVars);
+      }
     } else {
       res.status(404).send('Sorry, that doesn\'t seem to be a valid URL');
     }
-  });
+});
   
-  router.post('/:shortURL',(req, res) => {
+  router.put('/:shortURL',(req, res) => {
     if (!req.body.newURL) {
       res.redirect(`/urls/${req.params.shortURL}`);
     } else {
