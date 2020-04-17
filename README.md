@@ -2,6 +2,8 @@
 
 TinyApp is a full stack web application built with Node and Express that allows users to shorten long URLs (à la bit.ly).
 
+Stretch features have been implemented. The features include using Method-Override to simulate PUT and DELETE methods, as well as an analaytics table on the Short URL page that displays the total visits, total unique visits and a visitor log for that particular shortened URL.
+
 ## Final Product
 
 !["Registration Page"](https://github.com/joeykishiuchi/tinyapp/blob/master/docs/registration-page.png?raw=true)
@@ -18,6 +20,7 @@ TinyApp is a full stack web application built with Node and Express that allows 
 - body-parser
 - cookie-session
 - module
+- method-override (stretch)
 
 ## Getting Started
 
