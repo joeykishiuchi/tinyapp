@@ -61,6 +61,7 @@ const urlRouter = (urlDatabase, users) => {
   router.get('/:shortURL',(req, res) => {
     // Checks that the shortened URL exists in the database
     if (urlDatabase[req.params.shortURL]) {
+      urlDatabase[req.params.shortURL].visitCount++;
       const templateVars = {
         shortURL: req.params.shortURL,
         longURL: urlDatabase[req.params.shortURL].longURL,
